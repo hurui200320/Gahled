@@ -2,6 +2,7 @@ package info.skyblond.gahled
 
 import info.skyblond.gahled.bot.GahledBot
 import info.skyblond.gahled.bot.GetIdBot
+import info.skyblond.gahled.domains.KeyValueOperations
 import info.skyblond.gahled.domains.createTablesIfNotExists
 import mu.KotlinLogging
 import org.jetbrains.exposed.sql.Database
@@ -29,6 +30,9 @@ fun main(args: Array<String>) {
     Database.connect(datasource)
     logger.info { "Initializing tables..." }
     createTablesIfNotExists()
+    if (KeyValueOperations.getCollectingCurrentVersion() == null) {
+        KeyValueOperations.setCollectingCurrentVersion(-1)
+    }
 
     logger.info { "Setting up telegram bot" }
 
@@ -36,7 +40,6 @@ fun main(args: Array<String>) {
     val botOptions = DefaultBotOptions().also {
         ConfigService.setupTelegramBotOption(it)
     }
-
 
     val bot = ConfigService.getTelegramChannelChatId().let { id ->
         if (id == null) {

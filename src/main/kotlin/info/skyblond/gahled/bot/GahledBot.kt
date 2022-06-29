@@ -189,7 +189,7 @@ class GahledBot(options: DefaultBotOptions) : AbstractBot(options, "GahledBot") 
                             sendSimpleMessage(chatId, "您还没提名电影，请使用 /start 查看最新的选项")
                         } else {
                             CollectingNameOperations.removeUserNaming(userId)
-                            sendSimpleMessage(chatId, "您的推荐已撤销")
+                            sendSimpleMessage(chatId, "您的推荐已撤销，请使用 /start 查看最新的选项")
                         }
                     }
                     else -> sendInvalidNotice(chatId)
@@ -320,8 +320,8 @@ class GahledBot(options: DefaultBotOptions) : AbstractBot(options, "GahledBot") 
         movieList.forEach { (movieName, note, userId) ->
             val user = execute(GetChatMember.builder().chatId(channelId.toString()).userId(userId).build())
             val text = "${movieName}\n" +
-                    "由 ${user.user.firstName} ${user.user.lastName ?: ""} 推荐：\n\n" +
-                    note + "\n"
+                    "由 ${user.user.firstName} ${user.user.lastName ?: ""} 推荐。\n\n" +
+                    "推荐理由：" + note + "\n"
 
             sendSimpleMessage(channelId, text)
             try { // in case rate limit
