@@ -26,6 +26,9 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.38.2")
     // telegram bot api
     implementation("org.telegram:telegrambots:6.0.1")
+    // Quartz
+    implementation("org.quartz-scheduler:quartz:2.3.2")
+
 
 
 
